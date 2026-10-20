@@ -1,0 +1,250 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Inventory & Sales Dashboard</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f7fb;
+      color: #243247;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .dashboard {
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    section, .panel {
+      background: white;
+      padding: 20px;
+      border-radius: 14px;
+      margin-bottom: 20px;
+      box-shadow: 0 3px 14px rgba(0,0,0,0.05);
+    }
+
+    h1 { margin-bottom: 25px; }
+    h2 { font-size: 20px; }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .stat-card {
+      background: #edf2f8;
+      border-radius: 12px;
+      padding: 15px;
+    }
+
+    .stat-card h3 {
+      font-size: 13px;
+      color: #617187;
+    }
+
+    .stat-card p {
+      font-size: 25px;
+      font-weight: bold;
+      margin: 8px 0;
+    }
+
+    input, select, button {
+      padding: 11px;
+      border-radius: 8px;
+      border: 1px solid #d5dce6;
+      font-size: 14px;
+    }
+
+    input, select {
+      box-sizing: border-box;
+      max-width: 100%;
+    }
+
+    form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    form input { flex: 1 1 150px; }
+
+    button {
+      background: #263b59;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 15px;
+    }
+
+    .controls input {
+      flex: 1 1 200px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      padding: 12px;
+      margin-bottom: 10px;
+      background: #f7f9fc;
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    li span:first-child {
+      flex: 1 1 180px;
+    }
+
+    .chart-container {
+      position: relative;
+      height: 320px;
+      width: 100%;
+    }
+
+    #chartMessage {
+      color: #b45309;
+      font-size: 14px;
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 12px; }
+      section, .panel { padding: 15px; }
+      .stat-card p { font-size: 21px; }
+      .chart-container { height: 280px; }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="dashboard">
+
+    <h1>Inventory & Sales Dashboard</h1>
+
+    <section>
+      <h2>Inventory Overview</h2>
+
+      <div class="stats">
+        <div class="stat-card">
+          <h3>Total Products</h3>
+          <p id="totalProducts">0</p>
+        </div>
+
+        <div class="stat-card">
+          <h3>Inventory Value</h3>
+          <p id="inventoryValue">$0.00</p>
+        </div>
+      </div>
+
+      <h2>Add Product</h2>
+
+      <form id="productForm">
+        <input
+          type="text"
+          id="productName"
+          placeholder="Product Name"
+          required
+        >
+
+        <input
+          type="number"
+          id="productPrice"
+          placeholder="Price"
+          min="0"
+          step="0.01"
+          required
+        >
+
+        <input
+          type="number"
+          id="productQuantity"
+          placeholder="Quantity"
+          min="0"
+          step="1"
+          required
+        >
+
+        <button type="submit">Add Product</button>
+      </form>
+
+      <h2>Products</h2>
+
+      <div class="controls">
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Search products..."
+        >
+
+        <select id="sortSelect">
+          <option value="default">Original Order</option>
+          <option value="low">Price: Low to High</option>
+          <option value="high">Price: High to Low</option>
+        </select>
+      </div>
+
+      <ul id="productList"></ul>
+    </section>
+
+    <section>
+      <h2>Sales Overview</h2>
+
+      <div class="stats">
+        <div class="stat-card">
+          <h3>Total Sales</h3>
+          <p id="totalSales">$0.00</p>
+        </div>
+
+        <div class="stat-card">
+          <h3>Units Sold</h3>
+          <p id="unitsSold">0</p>
+        </div>
+      </div>
+
+      <h2>Sales History</h2>
+      <ul id="salesList"></ul>
+    </section>
+
+    <section class="chart-section">
+      <h2>Sales by Product</h2>
+
+      <p id="chartMessage"></p>
+
+      <div class="chart-container">
+        <canvas id="salesChart"></canvas>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Load Chart.js before our JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+  <script src="script.js"></script>
+
+</body>
+</html>
